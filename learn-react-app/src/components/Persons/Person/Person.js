@@ -6,6 +6,13 @@ import PropTypes from 'prop-types';
 
 class Person extends Component {
 
+    componentDidMount () {
+        console.log('[Person.js] inside componentDidMount');
+        if (this.props.position === 0) {
+            this.inputElement.focus();
+        }
+    }
+
     shouldComponentUpdate (nextProps, nextState) {
         console.log('[UPDATE Person.js] inside shouldComponentUpdate');
         return nextProps.persons !== this.props.persons;
@@ -24,7 +31,11 @@ class Person extends Component {
             <Aux>
                 <p onClick={this.props.click}>Hi! My name is {this.props.name}. I am {this.props.age} years old.</p>
                 <p>{this.props.children}</p>
-                <input type="text" onChange={this.props.changed} value={this.props.name} />
+                <input 
+                    ref={(inp) => {this.inputElement = inp;}}
+                    type="text" 
+                    onChange={this.props.changed} 
+                    value={this.props.name} />
             </Aux>
             );    
     }
