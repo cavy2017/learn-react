@@ -3,6 +3,7 @@ import classes from './Person.css';
 import Aux from '../../../hoc/Auxiliary';
 import withClass from '../../../hoc/withClass';
 import PropTypes from 'prop-types';
+import { AuthContext } from '../../../containers/App';
 
 class Person extends Component {
     constructor (props) {
@@ -18,10 +19,10 @@ class Person extends Component {
         }
     }
 
-    shouldComponentUpdate (nextProps, nextState) {
-        console.log('[UPDATE Person.js] inside shouldComponentUpdate');
-        return nextProps.persons !== this.props.persons;
-    }
+    // shouldComponentUpdate (nextProps, nextState) {
+    //     console.log('[UPDATE Person.js] inside shouldComponentUpdate');
+    //     return nextProps.persons !== this.props.persons;
+    // }
 
     componentWillUpdate (nextProps, nextState) {
         console.log('[UPDATE Person.js] Inside componentWillUpdate');
@@ -38,6 +39,9 @@ class Person extends Component {
     render() {
         return (
             <Aux>
+                <AuthContext.Consumer>
+                {auth => auth ? <p>I am authenticated!</p> : null}
+                </AuthContext.Consumer>
                 <p onClick={this.props.click}>Hi! My name is {this.props.name}. I am {this.props.age} years old.</p>
                 <p>{this.props.children}</p>
                 <input 
