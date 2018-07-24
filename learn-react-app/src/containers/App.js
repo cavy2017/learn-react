@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
-import WithClass from '../hoc/WithClass';
+import Aux from '../hoc/Auxiliary';
+import withClass from '../hoc/withClass';
 
 class App extends PureComponent {
   state = {
@@ -10,7 +11,9 @@ class App extends PureComponent {
       {id: 'sdf', name: 'Max', age: 28},
       {id: 'aaa', name: 'Manu', age: 29},
       {id: 'hhk', name: 'Stephany', age: 26}
-    ]
+    ],
+    showPersons: false,
+    toggleClicked: 0
   }
 
   componentWillMount () {
@@ -50,7 +53,13 @@ class App extends PureComponent {
   }
 
   togglePersonsHandler = () => {
-    this.setState({showPersons: !this.state.showPersons});
+    const doesShow = this.state.showPersons;
+    this.setState((prevState, props) => {
+      return {
+        showPersons: !doesShow,
+        toggleClicked: prevState.toggleClicked + 1
+      }
+    });
   }
 
   deletePersonHandler = (personIndex) => {
@@ -70,15 +79,15 @@ class App extends PureComponent {
     }
 
     return (
-      <WithClass classes={classes.App}>
+      <Aux>
         <Cockpit 
           showPersons={this.state.showPersons}
           persons={this.state.persons}
           click={this.togglePersonsHandler}/>
         {persons}
-      </WithClass>
+      </Aux>
     );
   }
 }
 
-export default App;
+export default withClass(App, classes.App);
